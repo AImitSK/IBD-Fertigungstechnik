@@ -6,7 +6,6 @@ import { Gradient } from '@/components/gradient'
 import { Keyboard } from '@/components/keyboard'
 import { Link } from '@/components/link'
 import { LinkedAvatars } from '@/components/linked-avatars'
-import { LogoCloud } from '@/components/logo-cloud'
 import { LogoCluster } from '@/components/logo-cluster'
 import { LogoTimeline } from '@/components/logo-timeline'
 import { Map } from '@/components/map'
@@ -21,6 +20,28 @@ export const metadata: Metadata = {
   description:
     'Radiant helps you sell more by revealing sensitive information about your customers.',
 }
+
+const teaserBoxes = [
+    {
+        name: 'CNC Drehen',
+        imgSrc: '/01.png',
+        description: 'Präzise Fertigung von Bauteilen mit Durchmessern von 4 mm bis 600 mm. Wir bieten Ihnen hohe Flexibilität und Effizienz.',
+        href: '/cnc-drehen',
+    },
+    {
+        name: 'CNC Fräsen',
+        imgSrc: '/01.png',
+        description: 'Hochpräzise Fräsbearbeitung für anspruchsvolle Geometrien. Von kleinen Bauteilen bis hin zu komplexen 3D-Formen.',
+        href: '/cnc-fraesen',
+    },
+    {
+        name: 'CNC Schleifen',
+        imgSrc: '/01.png',
+        description: 'Perfekte Oberflächen für höchste Ansprüche. Wir bieten Rund- und Flachschleifen für die optimale Endbearbeitung.',
+        href: '/cnc-schleifen',
+    },
+]
+
 
 function Hero() {
   return (
@@ -39,24 +60,51 @@ function Hero() {
           }
         />
         <div className="pb-24 pt-16 sm:pb-32 sm:pt-24 md:pb-48 md:pt-32">
-          <h1 className="font-display text-balance text-6xl/[0.9] font-medium tracking-tight text-gray-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]">
-            Close every deal.
+          <h1 className="font-display text-balance text-6xl/[1.0] font-medium tracking-tight text-gray-950 sm:text-6xl/[1.0] md:text-7xl/[1.0]">
+              Zuverlässiger Qualität <br />in der CNC-Bearbeitung.
           </h1>
-          <p className="mt-8 max-w-lg text-xl/7 font-medium text-gray-950/75 sm:text-2xl/8">
-            Radiant helps you sell more by revealing sensitive information about
-            your customers.
+          <p className="mt-8 mb-16 max-w-xl text-xl/7 font-medium text-gray-950/75 sm:text-2xl/8">
+              Ihr Spezialist für CNC-Drehen, Fräsen und Schleifen.
           </p>
-          <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
-            <Button href="#">Get started</Button>
-            <Button variant="secondary" href="/pricing">
-              See pricing
-            </Button>
-          </div>
+
         </div>
       </Container>
     </div>
   )
 }
+
+function TeaserBoxen() {
+    return (
+        <div className="relative m-[-150px] mb-[150px]">
+            <Container className="relative">
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+                    {teaserBoxes.map((box, boxIndex) => (
+                        <TeaserBox key={boxIndex} box={box} />
+                    ))}
+                </div>
+            </Container>
+        </div>
+    )
+}
+
+function TeaserBox({ box }: { box: (typeof teaserBoxes)[number] }) {
+    return (
+        <div className="-m-2 grid grid-cols-1 rounded-4xl shadow-[inset_0_0_2px_1px_#ffffff4d] ring-1 ring-black/5 max-lg:mx-auto max-lg:w-full max-lg:max-w-md">
+            <div className="grid grid-cols-1 rounded-4xl p-2 shadow-md shadow-black/5">
+                <div className="rounded-3xl bg-white p-10 pb-9 shadow-2xl ring-1 ring-black/5">
+                    <img className="mb-4 mx-auto w-full h-48 object-cover rounded-lg" src={box.imgSrc} alt={box.name} />
+                    <p className="mt-1 text-2xl/8 font-medium text-gray-950">{box.name}</p>
+                    <p className="mt-2 text-sm/6 text-gray-950/75">{box.description}</p>
+                    <div className="mt-8">
+                        <Button href={box.href}>mehr hierzu</Button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
 
 function FeatureSection() {
   return (
@@ -190,14 +238,14 @@ function DarkBentoSection() {
   )
 }
 
+
+
 export default function Home() {
   return (
     <div className="overflow-hidden">
       <Hero />
       <main>
-        <Container className="mt-10">
-          <LogoCloud />
-        </Container>
+          <TeaserBoxen />
         <div className="bg-gradient-to-b from-white from-50% to-gray-100 py-32">
           <FeatureSection />
           <BentoSection />
