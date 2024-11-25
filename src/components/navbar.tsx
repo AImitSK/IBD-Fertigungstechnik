@@ -1,34 +1,76 @@
 'use client';
 
-import {
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
-} from '@headlessui/react';
-import { Bars2Icon } from '@heroicons/react/24/solid';
+import { Disclosure, DisclosureButton, DisclosurePanel, Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
+import { Bars3Icon, ChevronDownIcon } from '@heroicons/react/24/solid'; // Korrigierter Import
 import { motion } from 'framer-motion';
 import { Link } from './link';
-import Image from 'next/image'; // Importiere die Image-Komponente für Next.js
+import Image from 'next/image';
 import { PlusGrid, PlusGridItem, PlusGridRow } from './plus-grid';
 
-const links = [
-    { href: '/pricing', label: 'Pricing' },
-    { href: '/company', label: 'Company' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/login', label: 'Login' },
+interface LinkItem {
+    href: string;
+    label: string;
+    children?: LinkItem[];
+}
+
+const links: LinkItem[] = [
+    { href: '/maschinenpark', label: 'Maschinenpark', children: [] },
+    {
+        href: '',
+        label: 'Techniken',
+        children: [
+            { href: '/drehen', label: 'Drehen' },
+            { href: '/fraesen', label: 'Fräsen' },
+            { href: '/schleifen', label: 'Schleifen' },
+        ],
+    },
+    {
+        href: '',
+        label: 'Unternehmen',
+        children: [
+            { href: '/unternehmen/ueber-ibd', label: 'Über IBD' },
+            { href: '/unternehmen/karriere', label: 'Karriere' },
+        ],
+    },
+    {
+        href: '',
+        label: 'Kontakt',
+        children: [
+            { href: '/kontakt/ansprechpartner', label: 'Ansprechpartner' },
+            { href: '/kontakt/kontaktformular', label: 'Kontaktformular' },
+        ],
+    },
 ];
 
 function DesktopNav() {
     return (
         <nav className="relative hidden lg:flex">
-            {links.map(({ href, label }) => (
-                <PlusGridItem key={href} className="relative flex">
-                    <Link
-                        href={href}
-                        className="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply data-[hover]:bg-black/[2.5%]"
-                    >
-                        {label}
-                    </Link>
+            {links.map(({ href, label, children }) => (
+                <PlusGridItem key={label} className="relative flex">
+                    {children && children.length > 0 ? (
+                        <Popover className="relative flex">
+                            <PopoverButton className="inline-flex items-center gap-x-1 px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply data-[hover]:bg-black/[2.5%] focus:outline-none">
+                                {label}
+                                <ChevronDownIcon className="size-5" />
+                            </PopoverButton>
+                            <PopoverPanel className="absolute z-10 mt-3 w-screen max-w-xs -translate-x-1/2 px-4">
+                                <div className="rounded-xl bg-white p-4 shadow-lg ring-1 ring-gray-900/5">
+                                    {children.map(({ href, label }) => (
+                                        <Link key={href} href={href} className="block p-2 text-sm font-semibold text-gray-900 hover:text-indigo-600 focus:outline-none">
+                                            {label}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </PopoverPanel>
+                        </Popover>
+                    ) : (
+                        <Link
+                            href={href}
+                            className="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply data-[hover]:bg-black/[2.5%] focus:outline-none"
+                        >
+                            {label}
+                        </Link>
+                    )}
                 </PlusGridItem>
             ))}
         </nav>
@@ -38,10 +80,10 @@ function DesktopNav() {
 function MobileNavButton() {
     return (
         <DisclosureButton
-            className="flex size-12 items-center justify-center self-center rounded-lg data-[hover]:bg-black/5 lg:hidden"
+            className="flex size-12 items-center justify-center self-center rounded-lg data-[hover]:bg-black/5 lg:hidden focus:outline-none"
             aria-label="Open main menu"
         >
-            <Bars2Icon className="size-6" />
+            <Bars3Icon className="size-6" /> {/* Korrigierte Zeile */}
         </DisclosureButton>
     );
 }
@@ -50,7 +92,7 @@ function MobileNav() {
     return (
         <DisclosurePanel className="lg:hidden">
             <div className="flex flex-col gap-6 py-4">
-                {links.map(({ href, label }, linkIndex) => (
+                {links.map(({ href, label, children }, linkIndex) => (
                     <motion.div
                         initial={{ opacity: 0, rotateX: -90 }}
                         animate={{ opacity: 1, rotateX: 0 }}
@@ -61,9 +103,20 @@ function MobileNav() {
                         }}
                         key={href}
                     >
-                        <Link href={href} className="text-base font-medium text-gray-950">
+                        <DisclosureButton className="flex w-full justify-between px-4 py-2 text-left text-lg font-medium text-gray-900 focus:outline-none">
                             {label}
-                        </Link>
+                        </DisclosureButton>
+                        {children && children.length > 0 && (
+                            <Disclosure.Panel className="pl-4 py-2 border-l-2 border-gray-200">
+                                <div className="flex flex-col gap-2">
+                                    {children.map(({ href, label }) => (
+                                        <Link key={href} href={href} className="text-base text-gray-700 hover:text-gray-900 focus:outline-none">
+                                            {label}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </Disclosure.Panel>
+                        )}
                     </motion.div>
                 ))}
             </div>
@@ -75,7 +128,11 @@ function MobileNav() {
     );
 }
 
-export function Navbar({ banner }: { banner?: React.ReactNode }) {
+interface NavbarProps {
+    banner?: React.ReactNode;
+}
+
+export function Navbar({ banner }: NavbarProps) {
     return (
         <Disclosure as="header" className="pt-12 sm:pt-16">
             <PlusGrid>
