@@ -1,20 +1,17 @@
-import { BentoCard } from '@/components/bento-card'
 import { Button } from '@/components/button'
 import { Container } from '@/components/container'
 import { Footer } from '@/components/footer'
 import { Gradient } from '@/components/gradient'
-import { Keyboard } from '@/components/keyboard'
 import { Link } from '@/components/link'
-import { LinkedAvatars } from '@/components/linked-avatars'
-import { LogoCluster } from '@/components/logo-cluster'
-import { LogoTimeline } from '@/components/logo-timeline'
-import { Map } from '@/components/map'
 import { Navbar } from '@/components/navbar'
-import { Screenshot } from '@/components/screenshot'
-import { Testimonials } from '@/components/testimonials'
-import { Heading, Subheading } from '@/components/text'
+import {Heading, Lead, Subheading} from '@/components/text'
 import { ChevronRightIcon } from '@heroicons/react/16/solid'
 import type { Metadata } from 'next'
+import Image from 'next/image';
+import { getFeaturedPosts } from '@/sanity/queries';
+import { image as sanityImage } from '@/sanity/image';
+import dayjs from 'dayjs';
+
 
 export const metadata: Metadata = {
   description:
@@ -41,7 +38,6 @@ const teaserBoxes = [
         href: '/cnc-schleifen',
     },
 ]
-
 
 function Hero() {
   return (
@@ -104,141 +100,146 @@ function TeaserBox({ box }: { box: (typeof teaserBoxes)[number] }) {
     )
 }
 
+function ContentArea() {
+    return (
+        <Container className="mt-16">
+            <Heading as="h1">Helping companies generate revenue.</Heading>
+            <Lead className="mt-6 max-w-3xl">
+                We’re on a mission to transform revenue organizations by harnessing vast
+                amounts of illegally acquired customer data.
+            </Lead>
+            <section className="mt-16 grid grid-cols-1 lg:grid-cols-2 lg:gap-12">
+                <div className="max-w-lg">
+                    <h2 className="text-2xl font-medium tracking-tight">Our mission</h2>
+                    <p className="mt-6 text-sm/6 text-gray-600">
+                        At Radiant, we are dedicated to transforming the way revenue
+                        organizations source and close deals. Our mission is to provide our
+                        customers with an unfair advantage over both their competitors and
+                        potential customers through insight and analysis. We’ll stop at
+                        nothing to get you the data you need to close a deal.
+                    </p>
+                </div>
+                <div className="pt-20 lg:row-span-2 lg:-mr-16 xl:mr-auto">
+                    <div className="-mx-8 grid grid-cols-2 gap-4 sm:-mx-16 sm:grid-cols-4 lg:mx-0 lg:grid-cols-2 lg:gap-4 xl:gap-8">
+                        <div className="aspect-square overflow-hidden rounded-xl shadow-xl outline-1 -outline-offset-1 outline-black/10">
+                            <img
+                                alt=""
+                                src="/company/1.jpg"
+                                className="block size-full object-cover"
+                            />
+                        </div>
+                        <div className="-mt-8 aspect-square overflow-hidden rounded-xl shadow-xl outline-1 -outline-offset-1 outline-black/10 lg:-mt-32">
+                            <img
+                                alt=""
+                                src="/company/2.jpg"
+                                className="block size-full object-cover"
+                            />
+                        </div>
 
+                    </div>
+                </div>
 
-function FeatureSection() {
-  return (
-    <div className="overflow-hidden">
-      <Container className="pb-24">
-        <Heading as="h2" className="max-w-3xl">
-          A snapshot of your entire sales pipeline.
-        </Heading>
-        <Screenshot
-          width={1216}
-          height={768}
-          src="/screenshots/app.png"
-          className="mt-16 h-[36rem] sm:h-auto sm:w-[76rem]"
-        />
-      </Container>
-    </div>
-  )
+            </section>
+        </Container>
+    )
 }
 
-function BentoSection() {
-  return (
-    <Container>
-      <Subheading>Sales</Subheading>
-      <Heading as="h3" className="mt-2 max-w-3xl">
-        Know more about your customers than they do.
-      </Heading>
-
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
-        <BentoCard
-          eyebrow="Insight"
-          title="Get perfect clarity"
-          description="Radiant uses social engineering to build a detailed financial picture of your leads. Know their budget, compensation package, social security number, and more."
-          graphic={
-            <div className="h-80 bg-[url(/screenshots/profile.png)] bg-[size:1000px_560px] bg-[left_-109px_top_-112px] bg-no-repeat" />
-          }
-          fade={['bottom']}
-          className="max-lg:rounded-t-4xl lg:col-span-3 lg:rounded-tl-4xl"
-        />
-        <BentoCard
-          eyebrow="Analysis"
-          title="Undercut your competitors"
-          description="With our advanced data mining, you’ll know which companies your leads are talking to and exactly how much they’re being charged."
-          graphic={
-            <div className="absolute inset-0 bg-[url(/screenshots/competitors.png)] bg-[size:1100px_650px] bg-[left_-38px_top_-73px] bg-no-repeat" />
-          }
-          fade={['bottom']}
-          className="lg:col-span-3 lg:rounded-tr-4xl"
-        />
-        <BentoCard
-          eyebrow="Speed"
-          title="Built for power users"
-          description="It’s never been faster to cold email your entire contact list using our streamlined keyboard shortcuts."
-          graphic={
-            <div className="flex size-full pl-10 pt-10">
-              <Keyboard highlighted={['LeftCommand', 'LeftShift', 'D']} />
+function CTABox() {
+    return (
+        <Container className="mt-32 mb-32">
+            <div className="grid grid-cols-1 lg:grid-cols-2 bg-gray-100 rounded-lg shadow-lg min-h-[560px]">
+                <div className="relative">
+                    <Image
+                        src="/fraesen.jpg"
+                        alt="Fräsen"
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-l-lg lg:rounded-l-lg lg:rounded-r-none"
+                    />
+                </div>
+                <div
+                    className="flex flex-col justify-center bg-[#1F274D] text-white p-16 lg:p-24 rounded-r-lg"
+                >
+                    <h2 className="text-3xl font-bold mb-4 text-left">Legen wir los!</h2>
+                    <p className="mb-8 text-left">
+                        Mit modernster Technologie und einem motivierten Team sorgen
+                        wir für zuverlässige Qualität in der CNC-Bearbeitung. Vertrauen
+                        Sie auf unsere Expertise und lassen Sie uns gemeinsam Ihre
+                        Projekte erfolgreich umsetzen.
+                    </p>
+                    <div className="text-left">
+                        <a
+                            href="/kontakt"
+                            className="bg-[#7CB6E4] hover:bg-[#B0D3EF] text-white font-bold py-2 px-4 rounded-full inline-block"
+                        >
+                            Anfrage senden
+                        </a>
+                    </div>
+                </div>
             </div>
-          }
-          className="lg:col-span-2 lg:rounded-bl-4xl"
-        />
-        <BentoCard
-          eyebrow="Source"
-          title="Get the furthest reach"
-          description="Bypass those inconvenient privacy laws to source leads from the most unexpected places."
-          graphic={<LogoCluster />}
-          className="lg:col-span-2"
-        />
-        <BentoCard
-          eyebrow="Limitless"
-          title="Sell globally"
-          description="Radiant helps you sell in locations currently under international embargo."
-          graphic={<Map />}
-          className="max-lg:rounded-b-4xl lg:col-span-2 lg:rounded-br-4xl"
-        />
-      </div>
-    </Container>
-  )
+        </Container>
+    );
 }
 
-function DarkBentoSection() {
-  return (
-    <div className="mx-2 mt-2 rounded-4xl bg-gray-900 py-32">
-      <Container>
-        <Subheading dark>Outreach</Subheading>
-        <Heading as="h3" dark className="mt-2 max-w-3xl">
-          Customer outreach has never been easier.
-        </Heading>
+async function FeaturedPosts() {
+    let featuredPosts = await getFeaturedPosts(3);
 
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
-          <BentoCard
-            dark
-            eyebrow="Networking"
-            title="Sell at the speed of light"
-            description="Our RadiantAI chat assistants analyze the sentiment of your conversations in real time, ensuring you're always one step ahead."
-            graphic={
-              <div className="h-80 bg-[url(/screenshots/networking.png)] bg-[size:851px_344px] bg-no-repeat" />
-            }
-            fade={['top']}
-            className="max-lg:rounded-t-4xl lg:col-span-4 lg:rounded-tl-4xl"
-          />
-          <BentoCard
-            dark
-            eyebrow="Integrations"
-            title="Meet leads where they are"
-            description="With thousands of integrations, no one will be able to escape your cold outreach."
-            graphic={<LogoTimeline />}
-            // `!overflow-visible` is needed to work around a Chrome bug that disables the mask on the graphic.
-            className="z-10 !overflow-visible lg:col-span-2 lg:rounded-tr-4xl"
-          />
-          <BentoCard
-            dark
-            eyebrow="Meetings"
-            title="Smart call scheduling"
-            description="Automatically insert intro calls into your leads' calendars without their consent."
-            graphic={<LinkedAvatars />}
-            className="lg:col-span-2 lg:rounded-bl-4xl"
-          />
-          <BentoCard
-            dark
-            eyebrow="Engagement"
-            title="Become a thought leader"
-            description="RadiantAI automatically writes LinkedIn posts that relate current events to B2B sales, helping you build a reputation as a thought leader."
-            graphic={
-              <div className="h-80 bg-[url(/screenshots/engagement.png)] bg-[size:851px_344px] bg-no-repeat" />
-            }
-            fade={['top']}
-            className="max-lg:rounded-b-4xl lg:col-span-4 lg:rounded-br-4xl"
-          />
+    if (featuredPosts.length === 0) {
+        return null;
+    }
+
+    return (
+        <div className="mt-16 bg-gradient-to-t from-gray-100 pb-14">
+            <Container>
+                <h2 className="text-2xl font-medium tracking-tight">Featured</h2>
+                <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3">
+                    {featuredPosts.map((post) => (
+                        <div
+                            key={post.slug}
+                            className="relative flex flex-col rounded-3xl bg-white p-2 shadow-md shadow-black/5 ring-1 ring-black/5"
+                        >
+                            {post.mainImage && (
+                                <img
+                                    alt={post.mainImage.alt || ''}
+                                    src={sanityImage(post.mainImage).size(1170, 780).url()}
+                                    className="aspect-[3/2] w-full rounded-2xl object-cover"
+                                />
+                            )}
+                            <div className="flex flex-1 flex-col p-8">
+                                <div className="text-sm/5 text-gray-700">
+                                    {dayjs(post.publishedAt).format('dddd, MMMM D, YYYY')}
+                                </div>
+                                <div className="mt-2 text-base/7 font-medium">
+                                    <Link href={`/blog/${post.slug}`}>
+                                        <span className="absolute inset-0" />
+                                        {post.title}
+                                    </Link>
+                                </div>
+                                <div className="mt-2 flex-1 text-sm/6 text-gray-500">
+                                    {post.excerpt}
+                                </div>
+                                {post.author && (
+                                    <div className="mt-6 flex items-center gap-3">
+                                        {post.author.image && (
+                                            <img
+                                                alt=""
+                                                src={sanityImage(post.author.image).size(64, 64).url()}
+                                                className="aspect-square size-6 rounded-full object-cover"
+                                            />
+                                        )}
+                                        <div className="text-sm/5 text-gray-700">
+                                            {post.author.name}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </Container>
         </div>
-      </Container>
-    </div>
-  )
+    );
 }
-
-
 
 export default function Home() {
   return (
@@ -246,13 +247,10 @@ export default function Home() {
       <Hero />
       <main>
           <TeaserBoxen />
-        <div className="bg-gradient-to-b from-white from-50% to-gray-100 py-32">
-          <FeatureSection />
-          <BentoSection />
-        </div>
-        <DarkBentoSection />
+          <ContentArea />
+          <CTABox />
+          <FeaturedPosts />
       </main>
-      <Testimonials />
       <Footer />
     </div>
   )
