@@ -22,21 +22,21 @@ const teaserBoxes = [
         name: 'CNC Drehen',
         imgSrc: '/01.png',
         description: 'Präzise Fertigung von Bauteilen mit Durchmessern von 4 mm bis 600 mm. Wir bieten Ihnen hohe Flexibilität und Effizienz.',
-        href: '/cnc-drehen',
+        href: '/drehen',  // Angepasste Route
     },
     {
         name: 'CNC Fräsen',
         imgSrc: '/01.png',
         description: 'Hochpräzise Fräsbearbeitung für anspruchsvolle Geometrien. Von kleinen Bauteilen bis hin zu komplexen 3D-Formen.',
-        href: '/cnc-fraesen',
+        href: '/fraesen',  // Angepasste Route
     },
     {
         name: 'CNC Schleifen',
         imgSrc: '/01.png',
         description: 'Perfekte Oberflächen für höchste Ansprüche. Wir bieten Rund- und Flachschleifen für die optimale Endbearbeitung.',
-        href: '/cnc-schleifen',
+        href: '/schleifen',  // Angepasste Route
     },
-]
+];
 
 function Hero() {
   return (
