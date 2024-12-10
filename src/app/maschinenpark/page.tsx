@@ -9,6 +9,7 @@ import MaschinenTable from '@/components/maschinen';
 import { Heading } from '@/components/text';
 import Image from 'next/image';
 import FeaturedPostsBox from "@/components/featured-posts";
+import CTAButton from "@/components/CTAButton";
 
 const MaschinenPark = () => {
 
@@ -52,42 +53,7 @@ const MaschinenPark = () => {
         );
     }
 
-    function CTABox() {
-        return (
-            <Container className="mt-32 mb-32">
-                <div className="grid grid-cols-1 lg:grid-cols-2 bg-gray-100 rounded-lg shadow-lg min-h-[560px]">
-                    <div className="relative">
-                        <Image
-                            src="/team.jpg"
-                            alt="Fräsen"
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-l-lg lg:rounded-l-lg lg:rounded-r-none"
-                        />
-                    </div>
-                    <div
-                        className="flex flex-col justify-center bg-[#1F274D] text-white p-16 lg:p-24 rounded-r-lg"
-                    >
-                        <h2 className="text-3xl font-bold mb-4 text-left">Legen wir los!</h2>
-                        <p className="mb-8 text-left">
-                            Mit modernster Technologie und einem motivierten Team sorgen
-                            wir für zuverlässige Qualität in der CNC-Bearbeitung. Vertrauen
-                            Sie auf unsere Expertise und lassen Sie uns gemeinsam Ihre
-                            Projekte erfolgreich umsetzen.
-                        </p>
-                        <div className="text-left">
-                            <a
-                                href="/kontakt"
-                                className="bg-[#7CB6E4] hover:bg-[#B0D3EF] text-white font-bold py-2 px-4 rounded-full inline-block"
-                            >
-                                Anfrage senden
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </Container>
-        );
-    }
+
 
     return (
         <main className="overflow-hidden">
@@ -101,7 +67,13 @@ const MaschinenPark = () => {
                 <MaschinenTable maschinentyp="CNC-Fräsen" />
                 <MaschinenTable maschinentyp="CNC-Schleifen" />
             </Container>
-            <CTABox />
+            <CTAButton
+                imageSrc="/fraesen.jpg"
+                headline="Legen wir los!"
+                text="Mit modernster Technologie und einem motivierten Team sorgen wir für zuverlässige Qualität in der CNC-Bearbeitung. Vertrauen Sie auf unsere Expertise und lassen Sie uns gemeinsam Ihre Projekte erfolgreich umsetzen."
+                linkText="Anfrage senden"
+                linkHref="/kontakt"
+            />
             <FeaturedPostsBox />
             <Footer />
         </main>

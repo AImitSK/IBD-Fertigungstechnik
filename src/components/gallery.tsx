@@ -69,13 +69,13 @@ export default function Gallery({ galleryName, galleryTitel }: GalleryProps) {
     };
 
     return (
-        <div className="my-12 mx-auto max-w-7xl px-4">
+        <div className="my-12 mx-auto max-w-7xl px-0">
             {gallery ? (
                 <>
                     <h2 className="text-2xl font-bold tracking-tight text-gray-800 mb-6">
                         {galleryTitel}
                     </h2>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
                         {gallery.images.map((image, index) => (
                             <div
                                 key={index}
